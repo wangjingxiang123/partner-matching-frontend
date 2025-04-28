@@ -37,21 +37,34 @@ const router = useRouter()
 const searchText = ref('');
 
 const originTagList = [{
-  text: '性别',
+  text: '学习方向',
   children: [
-    {text: '男', id: '男'},
-    {text: '女', id: '女'},
+    {text: 'Java', id: 'Java'},
+    {text: 'python', id: 'python'},
+    {text: 'C++', id: 'C++'},
+    {text: 'PHP', id: 'PHP'},
+    {text: 'Vue', id: 'Vue'},
   ],
 },
   {
     text: '年级',
     children: [
-      {text: '大一', id: '大一'},
-      {text: '大二', id: '大二'},
-      {text: '大3', id: '大3'},
-      {text: '大4', id: '大4'},
-      {text: '大5', id: '大5aaaaaaa'},
-      {text: '大6', id: '大6aaaaaaa'},
+      {
+        "text": "freshman",
+        "id": "freshman"
+      },
+      {
+        "text": "sophomore",
+        "id": "sophomore"
+      },
+      {
+        "text": "junior",
+        "id": "junior"
+      },
+      {
+        "text": "senior",
+        "id": "senior"
+      }
     ],
   },
 ]

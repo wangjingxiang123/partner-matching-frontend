@@ -1,18 +1,36 @@
 <template>
-  <user-card-list :user-list="userList" />
+
+  <!-- 先显示骨架屏，数据加载完成后隐藏 -->
+  <van-skeleton title avatar :row="3" v-if="!userList || userList.length === 0" />
+  <!-- 循环渲染用户卡片 -->
+  <van-card
+      v-for="item in userList"
+      :key="item.id"
+      :desc="item.profile"
+      :title="`${item.username}（${item.planetCode}）`"
+      :thumb="item.avatarUrl"
+  >
+    <template #tags>
+      <van-tag plain type="danger" v-for="tag in item.tags" style="margin-right: 8px; margin-top: 8px">
+        {{ tag }}
+      </van-tag>
+    </template>
+    <template #footer>
+      <van-button size="mini">联系我</van-button>
+    </template>
+  </van-card>
   <van-empty v-if="!userList || userList.length < 1" description="搜索结果为空" />
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from 'vue';
-import {useRoute} from "vue-router";
+import { onMounted, reactive, ref } from 'vue';
+import { useRoute } from "vue-router";
 import myAxios from "../plugins/myAxios";
-import {Toast} from "vant";
+import { Toast } from "vant";
 import qs from 'qs';
-import UserCardList from "../components/UserCardList.vue";
 
 const route = useRoute();
-const {tags} = route.query;
+const { tags } = route.query;
 
 const userList = ref([]);
 
@@ -22,7 +40,7 @@ onMounted(async () => {
       tagNameList: tags
     },
     paramsSerializer: params => {
-      return qs.stringify(params, {indices: false})
+      return qs.stringify(params, { indices: false })
     }
   })
       .then(function (response) {
@@ -37,30 +55,14 @@ onMounted(async () => {
   if (userListData) {
     userListData.forEach(user => {
       if (user.tags) {
+
         user.tags = JSON.parse(user.tags);
       }
     })
     userList.value = userListData;
+
   }
 })
-
-
-// const mockUser = {
-//   id: 12345,
-//   username: '鱼皮',
-//   userAccount: '12314',
-//   profile: '一名精神小伙，目前还有头发，谢谢大家，阿爸爸阿爸爸阿巴阿巴阿巴',
-//   avatarUrl: 'https://636f-codenav-8grj8px727565176-1256524210.tcb.qcloud.la/img/logo.png',
-//   gender: 0,
-//   phone: '13113113111',
-//   email: '592342843721987@xzcxzczxcz.com',
-//   userRole: 0,
-//   planetCode: '1234',
-//   tags: ['java', 'emo', '打工中', 'emo', '打工中'],
-//   createTime: new Date(),
-// }
-
-
 </script>
 
 <style scoped>

@@ -43,7 +43,7 @@
           <template #input>
             <van-radio-group v-model="addTeamData.status" direction="horizontal">
               <van-radio name="0">公开</van-radio>
-              <van-radio name="1">私有</van-radio>
+
               <van-radio name="2">加密</van-radio>
             </van-radio-group>
           </template>

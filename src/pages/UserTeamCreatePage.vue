@@ -14,9 +14,12 @@ import TeamCardList from "../components/TeamCardList.vue";
 import {onMounted, ref} from "vue";
 import myAxios from "../plugins/myAxios";
 import {Toast} from "vant";
+import {getCurrentUser} from "../services/user";
 
 const router = useRouter();
 const searchText = ref('');
+const user = ref();
+
 
 // 跳转到加入队伍页
 const doJoinTeam = () => {
@@ -35,6 +38,7 @@ const teamList = ref([]);
 const listTeam = async (val = '') => {
   const res = await myAxios.get("/team/list/my/create", {
     params: {
+      userId: user.value.id,
       searchText: val,
       pageNum: 1,
     },
@@ -48,7 +52,8 @@ const listTeam = async (val = '') => {
 
 
 // 页面加载时只触发一次
-onMounted( () => {
+onMounted(async () => {
+  user.value = await getCurrentUser();
   listTeam();
 })
 
