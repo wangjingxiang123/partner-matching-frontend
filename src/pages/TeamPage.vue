@@ -7,7 +7,7 @@
     </van-tabs>
     <div style="margin-bottom: 16px" />
     <van-button class="add-button" type="primary" icon="plus" @click="toAddTeam" />
-    <team-card-list :teamList="teamList" />
+    <team-card-list :teamList="teamList" :refreshTeamList="refreshTeamList" />
     <van-empty v-if="teamList?.length < 1" description="数据为空"/>
   </div>
 </template>
@@ -66,6 +66,11 @@ const listTeam = async (val = '', status = 0) => {
   } else {
     Toast.fail('加载队伍失败，请刷新重试');
   }
+}
+
+// 刷新队伍列表的方法
+const refreshTeamList = async () => {
+  await listTeam(searchText.value, active.value === 'public'? 0 : 2);
 }
 
 // 页面加载时只触发一次
